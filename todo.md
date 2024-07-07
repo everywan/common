@@ -1,5 +1,14 @@
 # todo
 
+[ ] config
+[ ] cron bundle
+[ ] local func bundle
+[ ] traceID
 [ ] stastd
 [ ] sentry
-[ ] traceID
+[ ] hystrix
+[ ] bundle add pprof
+
+// sdk
+[ ] databases
+[ ] kafka
