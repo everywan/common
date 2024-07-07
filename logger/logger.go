@@ -35,7 +35,7 @@ type Logger interface {
 	Fatalf(context.Context, string, ...interface{})
 }
 
-var std Logger = New()
+var std Logger
 
 func GetLogger() Logger {
 	return std

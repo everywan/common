@@ -1,15 +1,20 @@
 package utils
 
-import "fmt"
+import (
+	"fmt"
+	"runtime/debug"
+
+	"github.com/pkg/errors"
+)
 
 // SafeRun sync run a func. If the func panics, the panic value is returned as an error.
 func SafeRun(fn func()) (err error) {
 	defer func() {
 		if r := recover(); r != nil {
 			if e, ok := r.(error); ok {
-				err = e
+				err = errors.Wrap(e, string(debug.Stack()))
 			} else {
-				err = fmt.Errorf("%v", r)
+				err = fmt.Errorf("unknown panic %v\n%s", r, string(debug.Stack()))
 			}
 		}
 	}()
@@ -23,9 +28,9 @@ func SafeRunWithError(fn func() error) (err error) {
 	defer func() {
 		if r := recover(); r != nil {
 			if e, ok := r.(error); ok {
-				err = e
+				err = errors.Wrap(e, string(debug.Stack()))
 			} else {
-				err = fmt.Errorf("%v", r)
+				err = fmt.Errorf("unknown panic %v\n%s", r, string(debug.Stack()))
 			}
 		}
 	}()

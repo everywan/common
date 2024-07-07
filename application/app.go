@@ -90,6 +90,7 @@ func (app *defaultApplication) Run(ctx context.Context) {
 	app.runBeforeStart(ctx)
 	bundleFinishCtx := app.runAllBundles(ctx)
 	app.runAfterStart(ctx)
+	app.logger.Infof(ctx, "Run application [%s] success", app.name)
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT, syscall.SIGQUIT)
@@ -155,12 +156,13 @@ func (app *defaultApplication) runAllBundles(ctx context.Context) context.Contex
 	for _, bundle := range app.bundles {
 		bundle := bundle
 		wg.Add(1)
+		app.logger.Infof(ctx, "bundle %s starting..", bundle.GetName())
 		// 由 bundle 自己决定是否捕获异常, app 不做处理.
 		go func() {
 			defer wg.Done()
 			bundle.Run(finishCtx)
+			app.logger.Infof(ctx, "bundle %s start suceess.", bundle.GetName())
 		}()
-		app.logger.Infof(ctx, "bundle %s start suceess.", bundle.GetName())
 	}
 
 	go func() {
@@ -172,18 +174,20 @@ func (app *defaultApplication) runAllBundles(ctx context.Context) context.Contex
 }
 
 func (app *defaultApplication) stopAllBundles(ctx context.Context) context.Context {
+	// todo add trace
 	finishCtx, cancel := context.WithCancel(ctx)
 	wg := sync.WaitGroup{}
 
 	for _, bundle := range app.bundles {
 		bundle := bundle
 		wg.Add(1)
+		app.logger.Infof(ctx, "bundle %s stoping.", bundle.GetName())
 		// 由 bundle 自己决定是否捕获异常, app 不做处理.
 		go func() {
 			defer wg.Done()
 			bundle.Stop(finishCtx)
+			app.logger.Infof(ctx, "bundle %s stop suceess.", bundle.GetName())
 		}()
-		app.logger.Infof(ctx, "bundle %s stop suceess.", bundle.GetName())
 	}
 
 	go func() {

@@ -16,9 +16,17 @@ var (
 	GoVersion    string // Golang信息
 )
 
-// Print your build info
+// todo demo 替换为实际名.
+// 打印程序构建信息, 需要在打包时注入变量. 程序实例参考 demo.
 /*
 Need add build flags
+	APP_NAME := commons
+	APP_VERSION     := $(shell git describe --abbrev=0 --tags)
+	BUILD_VERSION   := $(shell git log -1 --oneline | base64)
+	BUILD_TIME      := $(shell date "+%FT%T%z")
+	GIT_REVISION    := $(shell git rev-parse --short HEAD)
+	GIT_BRANCH      := $(shell git name-rev --name-only HEAD)
+	GO_VERSION      := $(shell go version)
 	go build -ldflags "
 		-X 'github.com/everywan/common/utils.AppName=${APP_NAME}'             \
 		-X 'github.com/everywan/common/utils.AppVersion=${APP_VERSION}'       \
