@@ -45,6 +45,7 @@ func SetLogger(logger Logger) {
 	std = logger
 }
 
+// 支持动态设置 Level
 func SetLevel(level Level) {
 	std.SetLevel(level)
 }

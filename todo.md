@@ -1,6 +1,5 @@
 # todo
 
-[ ] config
 [ ] cron bundle
 [ ] local func bundle
 [ ] traceID
