@@ -1,9 +1,6 @@
 # todo
 
-[ ] cron bundle
 [ ] local func bundle
-[ ] traceID
-[ ] stastd
 [ ] sentry
 [ ] hystrix
 [ ] bundle add pprof
